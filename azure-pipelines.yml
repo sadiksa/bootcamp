@@ -24,3 +24,13 @@ stages:
         Dockerfile: '$(DOCKERFILE_PATH)'
         tags: |
           latest
+      
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish deployment artifacts'
+      inputs:
+        PathtoPublish: '$(System.DefaultWorkingDirectory)'
+        ArtifactName: 'k8s-ymls'
+        publishLocation: 'Container'
+        targetPath: |
+          deployment.yml
+          service.yml

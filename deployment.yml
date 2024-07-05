@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-demo
+  namespace: devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dotnet-demo
+  template:
+    metadata:
+      name: dotnet-demo
+      labels:
+        app: dotnet-demo
+    spec:
+      containers:
+        - env:
+            - name: "ASPNETCORE_ENVIRONMENT"
+              value: Test  
+          image: sadiksa/demo-dotnet:$(Build.BuildNumber)
+          imagePullPolicy: Always        
+          name: dotnet-demo
+          resources:
+            requests:
+              memory: 100Mi
+              cpu: 100m
+            limits:
+              memory: 200Mi
+              cpu: 200m
+      imagePullSecrets:
+        - name: k8s-secret
